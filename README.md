@@ -72,3 +72,4 @@ app/src/main/java/com/kafecito/app/
 - Cada integrante trabaja en **su propia rama** (`git checkout -b nombre-tarea`), nunca directo en `main`.
 - Al terminar: commit, push y Pull Request; el dueño del repositorio revisa y hace el merge.
 - Todos deben quedar como colaboradores del repositorio y con commits propios (requisito de la entrega final).
+  -- **Orden de merge:** 1) CARRITO, 2) DETALLE, 3) CATALOGO, 4) IMAGENES, 5) TEMA (puede ir en cualquier momento).
