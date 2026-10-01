@@ -2,6 +2,7 @@ package com.kafecito.app.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -10,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.kafecito.app.data.model.Producto
 import com.kafecito.app.ui.theme.*
@@ -18,8 +20,7 @@ import com.kafecito.app.ui.theme.*
  * Detalle de producto (pantalla del Figma con la foto grande y "Agregar pedido").
  * Se abre al tocar una tarjeta del Home.
  *
- * Ya funciona: muestra los datos y el botón agrega el producto al carrito y regresa.
- * Falta lo marcado con TODO(DETALLE) y TODO(IMAGENES).
+ * Falta lo marcado con TODO(IMAGENES).
  */
 @Composable
 fun ProductDetailScreen(
@@ -42,11 +43,7 @@ fun ProductDetailScreen(
             return@Column
         }
 
-        // TODO(DETALLE): la cantidad hoy queda fija en 1. Agregar el selector de cantidad
-        //   del Figma (botones "-" y "+" con el número en medio):
-        //     - "-" resta 1, pero nunca baja de 1.
-        //     - "+" suma 1, pero nunca supera producto.stock.
-        //   Mostrar el selector en el espacio marcado más abajo ("Cantidad").
+        // Cantidad seleccionada (mínimo 1, máximo el stock disponible)
         var cantidad by remember { mutableStateOf(1) }
 
         // TODO(IMAGENES): reemplazar este Box gris por la foto grande del producto
@@ -74,14 +71,53 @@ fun ProductDetailScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // TODO(DETALLE): aquí va el selector de cantidad (ver nota arriba).
-        Text(text = "Cantidad: $cantidad", color = KafeWhite, style = MaterialTheme.typography.bodyLarge)
+        // Selector de cantidad: [ - ]  N  [ + ]
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Botón "-" : resta 1 pero nunca baja de 1
+            FilledIconButton(
+                onClick = { if (cantidad > 1) cantidad-- },
+                enabled = cantidad > 1,
+                shape = CircleShape,
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = KafeWhite,
+                    contentColor = KafeBlack,
+                    disabledContainerColor = KafeGray,
+                    disabledContentColor = KafeBlack
+                )
+            ) {
+                Text("−", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            }
+
+            Text(
+                text = "$cantidad",
+                color = KafeWhite,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(horizontal = 28.dp)
+            )
+
+            // Botón "+" : suma 1 pero nunca supera el stock
+            FilledIconButton(
+                onClick = { if (cantidad < producto.stock) cantidad++ },
+                enabled = cantidad < producto.stock,
+                shape = CircleShape,
+                colors = IconButtonDefaults.filledIconButtonColors(
+                    containerColor = KafeWhite,
+                    contentColor = KafeBlack,
+                    disabledContainerColor = KafeGray,
+                    disabledContentColor = KafeBlack
+                )
+            ) {
+                Text("+", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            }
+        }
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // TODO(DETALLE): el texto del botón debe mostrar el total según la cantidad,
-        //   como en el Figma: "Agregar pedido $7.00" (precio * cantidad, con 2 decimales).
-        //   Pista: "%.2f".format(producto.precio * cantidad)
+        // El botón muestra el total: precio * cantidad (ej. "Agregar pedido $3.50")
         Button(
             onClick = {
                 onAgregar(producto, cantidad)
@@ -89,6 +125,8 @@ fun ProductDetailScreen(
             },
             colors = ButtonDefaults.buttonColors(containerColor = KafeWhite, contentColor = KafeBlack),
             modifier = Modifier.fillMaxWidth().height(48.dp)
-        ) { Text("Agregar pedido") }
+        ) {
+            Text("Agregar pedido $${"%.2f".format(producto.precio * cantidad)}")
+        }
     }
 }
