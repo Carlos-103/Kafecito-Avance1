@@ -22,7 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.kafecito.app.data.model.Producto
 import com.kafecito.app.data.repository.KafecitoRepository
+import com.kafecito.app.ui.components.KafeHeader
 import com.kafecito.app.ui.theme.*
+
 
 /**
  * Pantalla principal: saludo, buscador, categorías y grid de productos.
@@ -46,42 +48,43 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(KafeWhite)
-            .padding(horizontal = 16.dp)
+            .background(KafeBlack)
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "¡Hola! ${KafecitoRepository.nombreUsuarioActual()}",
-                style = MaterialTheme.typography.titleMedium
-            )
-            IconButton(onClick = onAbrirCarrito) {
-                Icon(Icons.Filled.ShoppingCart, contentDescription = "Carrito")
+        KafeHeader {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "¡Hola! ${KafecitoRepository.nombreUsuarioActual()}",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                IconButton(onClick = onAbrirCarrito) {
+                    Icon(Icons.Filled.ShoppingCart, contentDescription = "Carrito")
+                }
             }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = busqueda,
+                onValueChange = { busqueda = it },
+                placeholder = { Text("Buscar") },
+                leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+                singleLine = true,
+                shape = RoundedCornerShape(24.dp),
+                modifier = Modifier.fillMaxWidth()
+            )
         }
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        OutlinedTextField(
-            value = busqueda,
-            onValueChange = { busqueda = it },
-            placeholder = { Text("Buscar") },
-            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-            singleLine = true,
-            shape = RoundedCornerShape(24.dp),
-            modifier = Modifier.fillMaxWidth()
-        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
+                .horizontalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             KafecitoRepository.categorias.forEach { categoria ->
@@ -97,6 +100,7 @@ fun HomeScreen(
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
@@ -119,7 +123,7 @@ private fun CategoriaChip(texto: String, seleccionada: Boolean, onClick: () -> U
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(20.dp))
-            .background(if (seleccionada) KafeBlack else KafeChip)
+            .background(if (seleccionada) KafeGray else KafeChip)
             .clickable { onClick() }
             .padding(horizontal = 14.dp, vertical = 8.dp)
     ) {
