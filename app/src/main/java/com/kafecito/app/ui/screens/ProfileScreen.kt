@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.kafecito.app.data.repository.KafecitoRepository
+import com.kafecito.app.ui.components.KafeHeader
 import com.kafecito.app.ui.theme.*
 
 /** Perfil. YA FUNCIONA: muestra nombre y correo del usuario y el botón "Cerrar sesión". */
@@ -20,37 +21,47 @@ fun ProfileScreen(onCerrarSesion: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(KafeWhite)
-            .padding(20.dp)
+            .background(KafeBlack)
     ) {
-        Text(text = "PERFIL", style = MaterialTheme.typography.titleMedium)
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(CircleShape)
-                    .background(KafeChip),
-                contentAlignment = Alignment.Center
-            ) { Icon(Icons.Filled.Person, contentDescription = null) }
-            Spacer(modifier = Modifier.width(12.dp))
-            Column {
-                Text(text = KafecitoRepository.nombreUsuarioActual(), style = MaterialTheme.typography.bodyLarge)
-                Text(
-                    text = KafecitoRepository.correoUsuarioActual(),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = KafeGray
-                )
-            }
+        KafeHeader {
+            Text(text = "PERFIL", style = MaterialTheme.typography.titleMedium)
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(56.dp)
+                        .clip(CircleShape)
+                        .background(KafeChip),
+                    contentAlignment = Alignment.Center
+                ) { Icon(Icons.Filled.Person, contentDescription = null) }
+                Spacer(modifier = Modifier.width(12.dp))
+                Column {
+                    Text(
+                        text = KafecitoRepository.nombreUsuarioActual(),
+                        color = KafeWhite,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Text(
+                        text = KafecitoRepository.correoUsuarioActual(),
+                        color = KafeGray,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
 
-        Button(
-            onClick = onCerrarSesion,
-            colors = ButtonDefaults.buttonColors(containerColor = KafeBlack, contentColor = KafeWhite),
-            modifier = Modifier.fillMaxWidth().height(48.dp)
-        ) { Text("Cerrar sesión") }
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                onClick = onCerrarSesion,
+                colors = ButtonDefaults.buttonColors(containerColor = KafeWhite, contentColor = KafeBlack),
+                modifier = Modifier.fillMaxWidth().height(48.dp)
+            ) { Text("Cerrar sesión") }
+        }
     }
 }
