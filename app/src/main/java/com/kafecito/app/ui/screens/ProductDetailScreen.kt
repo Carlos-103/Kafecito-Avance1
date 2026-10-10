@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.kafecito.app.data.model.Producto
 import com.kafecito.app.ui.theme.*
+import com.kafecito.app.ui.components.ProductoImagen
 
 /**
  * Detalle de producto (pantalla del Figma con la foto grande y "Agregar pedido").
@@ -49,16 +50,14 @@ fun ProductDetailScreen(
         //   Mostrar el selector en el espacio marcado más abajo ("Cantidad").
         var cantidad by remember { mutableStateOf(1) }
 
-        // TODO(IMAGENES): reemplazar este Box gris por la foto grande del producto
-        //   (mismo AsyncImage explicado en HomeScreen.kt, con altura de 220.dp).
-        Box(
+        ProductoImagen(
+            imagen = producto.imagen,
+            descripcion = producto.nombre,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(220.dp)
                 .clip(RoundedCornerShape(20.dp))
-                .background(KafeImagePlaceholder)
         )
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(

@@ -1,5 +1,4 @@
 package com.kafecito.app.ui.screens
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -24,6 +23,7 @@ import com.kafecito.app.data.model.Producto
 import com.kafecito.app.data.repository.KafecitoRepository
 import com.kafecito.app.ui.components.KafeHeader
 import com.kafecito.app.ui.theme.*
+import com.kafecito.app.ui.components.ProductoImagen
 
 
 /**
@@ -148,28 +148,14 @@ private fun ProductoCard(
             .clickable { onClick() }
             .padding(10.dp)
     ) {
-        // TODO(IMAGENES): reemplazar este Box gris por la foto real del producto.
-        //   1) La URL de cada foto se define en el campo imagenUrl del producto
-        //      (data/model/Producto.kt; se llena en data/repository/KafecitoRepository.kt).
-        //   2) Usar Coil (la dependencia y el permiso de internet ya están agregados):
-        //        AsyncImage(
-        //            model = producto.imagenUrl,
-        //            contentDescription = producto.nombre,
-        //            contentScale = ContentScale.Crop,
-        //            modifier = Modifier
-        //                .fillMaxWidth()
-        //                .height(90.dp)
-        //                .clip(RoundedCornerShape(12.dp))
-        //        )
-        //      Imports necesarios: coil.compose.AsyncImage y androidx.compose.ui.layout.ContentScale
-        //   3) Si prefieren imágenes locales: copiarlas a app/src/main/res/drawable/ y usar
-        //      Image(painter = painterResource(R.drawable.nombre_imagen), ...)
-        Box(
+
+        ProductoImagen(
+            imagen = producto.imagen,
+            descripcion = producto.nombre,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(90.dp)
                 .clip(RoundedCornerShape(12.dp))
-                .background(KafeImagePlaceholder)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(text = producto.nombre, style = MaterialTheme.typography.bodyLarge, maxLines = 1)

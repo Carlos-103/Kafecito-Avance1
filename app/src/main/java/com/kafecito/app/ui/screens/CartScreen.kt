@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.kafecito.app.data.model.ItemCarrito
 import com.kafecito.app.ui.theme.*
 import com.kafecito.app.viewmodel.CarritoViewModel
+import com.kafecito.app.ui.components.ProductoImagen
 
 /**
  * "Mi pedido". Ya muestra los productos agregados desde el Home o el Detalle.
@@ -75,20 +76,19 @@ private fun CartItem(item: ItemCarrito) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // TODO(IMAGENES): mostrar aquí la miniatura del producto a la izquierda del nombre
-        //   (AsyncImage de 48.dp x 48.dp, igual que en el Figma).
-        Column(modifier = Modifier.weight(1f)) {
-            Text(text = item.producto.nombre, color = KafeWhite, style = MaterialTheme.typography.bodyLarge)
-            Text(
-                text = "Cantidad: ${item.cantidad}",
-                color = KafeGray,
-                style = MaterialTheme.typography.bodyMedium
-            )
+        ProductoImagen(
+            imagen = item.producto.imagen,
+            descripcion = item.producto.nombre,
+            modifier = Modifier
+                .size(48.dp)
+                .clip(RoundedCornerShape(8.dp))
+        )
+        Spacer(modifier = Modifier.width(12.dp))
             // TODO(CARRITO): agregar aquí los botones "-" y "+" para cambiar la cantidad
             //   (llaman a carritoVM.cambiarCantidad) y un botón para quitar el producto
             //   (llama a carritoVM.quitar). Hay que pasar carritoVM a este composable
             //   o recibir funciones lambda (onCambiarCantidad, onQuitar) desde CartScreen.
-        }
+
         Text(
             text = "$${"%.2f".format(item.totalLinea)}",
             color = KafeWhite,
