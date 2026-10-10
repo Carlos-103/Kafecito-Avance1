@@ -61,16 +61,12 @@ object KafecitoRepository {
     //   4. Cuando se tengan las fotos, llenar el último parámetro imagenUrl
     //      (ver TODO(IMAGENES)).
     private val productos = listOf(
-        Producto(1, "Espresso con leche", "Espresso con leche vaporizada y una capa espesa de espuma", 3.50, 40, "Café"),
-        Producto(2, "Cappuccino", "Espresso con leche vaporizada y una capa espesa de espuma", 3.50, 35, "Café"),
-        Producto(3, "Americano", "Espresso diluido en agua caliente", 2.50, 50, "Café"),
-        Producto(4, "Latte", "Espresso con abundante leche vaporizada", 3.25, 30, "Café"),
-        Producto(5, "Hojaldre francés", "Hojaldre recién horneado, mantequilla pura", 6.50, 15, "Desayuno"),
-        Producto(6, "Tostada con huevo", "Pan artesanal con huevo y vegetales", 5.75, 12, "Desayuno"),
-        Producto(7, "Tarta de queso", "Tarta cremosa de queso sobre base de galleta", 4.50, 10, "Postres"),
-        Producto(8, "Brownie", "Brownie de chocolate con nuez", 3.75, 20, "Postres"),
-        Producto(9, "Frappé de café", "Bebida fría batida con café y hielo", 4.00, 18, "Bebidas"),
-        Producto(10, "Té helado", "Té negro servido frío con limón", 2.75, 25, "Bebidas")
+        Producto(1, "Capuccino", "Espresso con leche vaporizada y espuma", 2.50, 4, "Café"),
+        Producto(2, "Café Americano", "Espresso diluido en agua caliente", 2.00, 8, "Café"),
+        Producto(3, "Pastel de Chocolate", "Pastel suave de chocolate", 3.00, 2, "Postres"),
+        Producto(4, "Sprite", "Gaseosa", 1.00, 5, "Bebidas"),
+        Producto(5, "Desayuno tipico", "Frijoles molidos, huevos revueltos y platanos fritos", 1.00, 5, "Desayuno")
+
     )
 
     fun obtenerProductos(categoria: String? = null): List<Producto> =
