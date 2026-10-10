@@ -1,11 +1,10 @@
 package com.kafecito.app.ui.screens
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Coffee
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import com.kafecito.app.R
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,7 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.kafecito.app.ui.theme.*
 
-/** Contacto / soporte técnico. Pantalla informativa, ya completa. */
+/** Contacto / soporte técnico. Pantalla informativa */
 @Composable
 fun ContactScreen() {
     Column(
@@ -55,7 +54,11 @@ fun ContactScreen() {
                     .background(KafeChip),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Filled.Coffee, contentDescription = null, modifier = Modifier.size(36.dp))
+                Image(
+                    painter = painterResource(R.drawable.contacto),
+                    contentDescription = "Logo Kafecito",
+                    modifier = Modifier.size(100.dp)
+                )
             }
         }
     }
