@@ -14,7 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.kafecito.app.ui.theme.*
 
-/** Contacto / soporte técnico. Pantalla informativa */
+/** Contacto y soporte técnico. Pantalla informativa */
 @Composable
 fun ContactScreen() {
     Column(

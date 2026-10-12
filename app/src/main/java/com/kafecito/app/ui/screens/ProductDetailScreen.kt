@@ -17,12 +17,7 @@ import com.kafecito.app.data.model.Producto
 import com.kafecito.app.ui.theme.*
 import com.kafecito.app.ui.components.ProductoImagen
 
-/**
- * Detalle de producto (pantalla del Figma con la foto grande y "Agregar pedido").
- * Se abre al tocar una tarjeta del Home.
- *
- * Falta lo marcado con TODO(IMAGENES).
- */
+
 @Composable
 fun ProductDetailScreen(
     producto: Producto?,

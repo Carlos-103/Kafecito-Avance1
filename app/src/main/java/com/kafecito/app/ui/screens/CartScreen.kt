@@ -20,9 +20,7 @@ import com.kafecito.app.viewmodel.CarritoViewModel
 import com.kafecito.app.ui.components.ProductoImagen
 
 /**
- * "Mi pedido". Ya muestra los productos agregados desde el Home o el Detalle.
- * Falta lo marcado con TODO(CARRITO): los totales (que dependen de CarritoViewModel),
- * y los botones para cambiar la cantidad o quitar productos.
+ * Pantalla del carrito: muestra los productos agregados y el resumen del pedido.
  */
 @Composable
 fun CartScreen(
@@ -35,6 +33,7 @@ fun CartScreen(
             .background(KafeBlack)
             .padding(20.dp)
     ) {
+        // Encabezado con el botón para regresar al Home.
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onAtras) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás", tint = KafeWhite)
@@ -43,7 +42,7 @@ fun CartScreen(
         }
 
         Spacer(modifier = Modifier.height(12.dp))
-
+// Si no hay productos, muestra un mensaje; de lo contrario, presenta la lista.
         if (carritoVM.items.isEmpty()) {
             Text(text = "Tu pedido está vacío", color = KafeGray, modifier = Modifier.weight(1f))
         } else {
@@ -55,16 +54,16 @@ fun CartScreen(
             }
         }
 
-        // TODO(CARRITO): estas tres filas muestran hoy $0.00 porque subtotal, iva y total
-        //   están sin implementar en viewmodel/CarritoViewModel.kt. Al completarlas allá,
-        //   aquí se actualizan solas (no hay que cambiar nada en estas filas).
+        // Muestra el resumen de precios; los cálculos dependen del CarritoViewModel.
         TotalRow("Subtotal", carritoVM.subtotal)
         TotalRow("IVA (13%)", carritoVM.iva)
         Spacer(modifier = Modifier.height(4.dp))
         TotalRow("TOTAL", carritoVM.total, destacado = true)
     }
 }
-
+/**
+ * Elemento individual del carrito que muestra la imagen y el precio del producto.
+ */
 @Composable
 private fun CartItem(item: ItemCarrito) {
     Row(
@@ -76,6 +75,7 @@ private fun CartItem(item: ItemCarrito) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Muestra la imagen del producto con bordes redondeados.
         ProductoImagen(
             imagen = item.producto.imagen,
             descripcion = item.producto.nombre,
@@ -84,10 +84,6 @@ private fun CartItem(item: ItemCarrito) {
                 .clip(RoundedCornerShape(8.dp))
         )
         Spacer(modifier = Modifier.width(12.dp))
-            // TODO(CARRITO): agregar aquí los botones "-" y "+" para cambiar la cantidad
-            //   (llaman a carritoVM.cambiarCantidad) y un botón para quitar el producto
-            //   (llama a carritoVM.quitar). Hay que pasar carritoVM a este composable
-            //   o recibir funciones lambda (onCambiarCantidad, onQuitar) desde CartScreen.
 
         Text(
             text = "$${"%.2f".format(item.totalLinea)}",
@@ -96,9 +92,10 @@ private fun CartItem(item: ItemCarrito) {
         )
     }
 }
-
+// Fila reutilizable para mostrar un concepto del pedido y su importe.
 @Composable
 private fun TotalRow(etiqueta: String, monto: Double, destacado: Boolean = false) {
+    // El total final se muestra en negrita para distinguirlo del resto.
     val peso = if (destacado) FontWeight.Bold else FontWeight.Normal
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),

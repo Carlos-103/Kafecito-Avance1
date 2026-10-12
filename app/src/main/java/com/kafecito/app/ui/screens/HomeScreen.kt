@@ -28,20 +28,21 @@ import com.kafecito.app.ui.components.ProductoImagen
 
 /**
  * Pantalla principal: saludo, buscador, categorías y grid de productos.
- * YA FUNCIONA (con productos de ejemplo): filtra por categoría y por texto de búsqueda.
- *
  *  - Tocar una tarjeta abre el detalle del producto.
  *  - Tocar el "+" agrega 1 unidad al carrito (CarritoViewModel.agregar).
  */
 @Composable
 fun HomeScreen(
+// La pantalla comunica los eventos al componente padre,
+// que se encarga de gestionar la navegación.
     onAbrirCarrito: () -> Unit,
     onAbrirDetalle: (Int) -> Unit,
     onAgregar: (Producto) -> Unit
 ) {
+    // Cuando el estado cambia, Compose actualiza la interfaz que depende de él.
     var categoriaSeleccionada by remember { mutableStateOf(KafecitoRepository.categorias.first()) }
     var busqueda by remember { mutableStateOf("") }
-
+// Se actualiza automáticamente cuando cambia la categoría o el texto de búsqueda.
     val productos = KafecitoRepository.obtenerProductos(categoriaSeleccionada)
         .filter { it.nombre.contains(busqueda, ignoreCase = true) }
 
@@ -97,7 +98,7 @@ fun HomeScreen(
         }
 
         Spacer(modifier = Modifier.height(12.dp))
-
+// Muestra los productos de forma eficiente, cargando los elementos según se necesitan.
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(horizontal = 16.dp),
@@ -117,7 +118,7 @@ fun HomeScreen(
         }
     }
 }
-
+// Botón de categoría que indica cuál está seleccionada y permite cambiarla.
 @Composable
 private fun CategoriaChip(texto: String, seleccionada: Boolean, onClick: () -> Unit) {
     Box(
@@ -127,6 +128,7 @@ private fun CategoriaChip(texto: String, seleccionada: Boolean, onClick: () -> U
             .clickable { onClick() }
             .padding(horizontal = 14.dp, vertical = 8.dp)
     ) {
+        // El color del texto cambia según la categoría seleccionada.
         Text(
             text = texto,
             color = if (seleccionada) KafeWhite else KafeBlack,
@@ -134,7 +136,7 @@ private fun CategoriaChip(texto: String, seleccionada: Boolean, onClick: () -> U
         )
     }
 }
-
+// Tarjeta que muestra la información del producto y permite abrirlo o agregarlo al carrito.
 @Composable
 private fun ProductoCard(
     producto: Producto,
@@ -142,13 +144,14 @@ private fun ProductoCard(
     onAgregar: () -> Unit
 ) {
     Column(
+        // El orden importa: primero la forma, luego el fondo, el clic y el espaciado.
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
             .background(KafeSurface)
             .clickable { onClick() }
             .padding(10.dp)
     ) {
-
+// Muestra la imagen del producto con un tamaño y bordes redondeados.
         ProductoImagen(
             imagen = producto.imagen,
             descripcion = producto.nombre,
@@ -171,12 +174,14 @@ private fun ProductoCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Muestra el precio del producto con dos decimales.
             Text(text = "$${"%.2f".format(producto.precio)}", style = MaterialTheme.typography.bodyLarge)
             Box(
                 modifier = Modifier
                     .size(28.dp)
                     .clip(CircleShape)
                     .background(KafeBlack)
+                    // Este clic agrega el producto sin abrir su detalle.
                     .clickable { onAgregar() },
                 contentAlignment = Alignment.Center
             ) {

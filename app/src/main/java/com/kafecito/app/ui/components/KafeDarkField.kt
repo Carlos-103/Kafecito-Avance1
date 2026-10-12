@@ -14,7 +14,10 @@ import com.kafecito.app.ui.theme.KafeBorderDark
 import com.kafecito.app.ui.theme.KafeGray
 import com.kafecito.app.ui.theme.KafeWhite
 
-/** Campo de texto para pantallas de fondo oscuro (Login y Registro). */
+/**
+ * Campo de texto reutilizable para pantallas con fondo oscuro,
+ * como Login y Registro.
+ */
 @Composable
 fun KafeDarkField(
     label: String,
@@ -29,7 +32,9 @@ fun KafeDarkField(
         label = { Text(label, color = KafeGray) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        // Oculta el contenido cuando el campo es para una contraseña.
         visualTransformation = if (esPassword) PasswordVisualTransformation() else VisualTransformation.None,
+        // Ajusta los colores del texto, borde, cursor y etiqueta.
         colors = OutlinedTextFieldDefaults.colors(
             focusedTextColor = KafeWhite,
             unfocusedTextColor = KafeWhite,
