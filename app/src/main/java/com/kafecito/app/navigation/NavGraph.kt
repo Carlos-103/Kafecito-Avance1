@@ -35,7 +35,7 @@ object Rutas {
 private val rutasConBarra = setOf(Rutas.HOME, Rutas.CONTACTO, Rutas.PERFIL)
 
 /**
- * Mapa de navegación de toda la app (requisito 3 del Avance 1).
+ * Mapa de navegación de toda la app.
  *
  * Flujo principal:  Welcome -> Login / Registro -> Home -> Detalle -> Carrito
  * Barra inferior:   Home | Contacto | Perfil

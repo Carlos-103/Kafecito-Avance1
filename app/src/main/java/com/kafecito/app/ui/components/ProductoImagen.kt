@@ -8,7 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.kafecito.app.ui.theme.KafeImagePlaceholder
-
+/**
+ * Muestra la imagen de un producto o un espacio temporal
+ * cuando todavía no se dispone de una imagen.
+ */
 @Composable
 fun ProductoImagen(imagen: Int?, descripcion: String, modifier: Modifier = Modifier) {
     if (imagen != null) {
@@ -19,6 +22,7 @@ fun ProductoImagen(imagen: Int?, descripcion: String, modifier: Modifier = Modif
             modifier = modifier
         )
     } else {
+        // Muestra un fondo gris cuando no hay imagen disponible.
         Box(modifier = modifier.background(KafeImagePlaceholder))
     }
 }

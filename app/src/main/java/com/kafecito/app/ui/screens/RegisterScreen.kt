@@ -19,12 +19,16 @@ import com.kafecito.app.ui.theme.KafeGray
 import com.kafecito.app.ui.theme.KafeWhite
 import com.kafecito.app.util.Validaciones
 
-/** Pantalla "Crear cuenta". YA FUNCIONA: valida y guarda el usuario en KafecitoRepository. */
+/**
+ * Pantalla para crear una cuenta.
+ * Valida los datos y registra al usuario en KafecitoRepository.
+ */
 @Composable
 fun RegisterScreen(
     onCuentaCreada: () -> Unit,
     onAtras: () -> Unit
 ) {
+    // Estados que almacenan los datos ingresados y los errores del formulario.
     var nombre by remember { mutableStateOf("") }
     var correo by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -39,6 +43,7 @@ fun RegisterScreen(
             .verticalScroll(rememberScrollState())
             .padding(24.dp)
     ) {
+        // Permite regresar a la pantalla anterior.
         IconButton(onClick = onAtras) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás", tint = KafeWhite)
         }
@@ -56,6 +61,7 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.height(12.dp))
         KafeDarkField(label = "Confirmar contraseña", value = confirmar, onChange = { confirmar = it }, esPassword = true)
 
+// Guarda si el usuario acepta los términos y condiciones.
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(top = 12.dp)
@@ -67,7 +73,7 @@ fun RegisterScreen(
             )
             Text("Acepto términos y condiciones", color = KafeGray)
         }
-
+// Muestra el mensaje únicamente cuando hay un error.
         error?.let {
             Text(text = it, color = MaterialTheme.colorScheme.error)
         }
@@ -76,9 +82,11 @@ fun RegisterScreen(
 
         Button(
             onClick = {
+                // Primero se validan los datos antes de intentar registrar al usuario.
                 error = validarRegistro(nombre, correo, password, confirmar, aceptaTerminos)
-                    // Si las validaciones pasan, se intenta crear la cuenta.
+                        // Si no hay errores, se intenta guardar la nueva cuenta.
                     ?: KafecitoRepository.registrar(nombre.trim(), correo.trim(), password)
+                // Si el registro termina sin errores, se notifica al componente padre.
                 if (error == null) onCuentaCreada()
             },
             colors = ButtonDefaults.buttonColors(containerColor = KafeWhite, contentColor = KafeBlack),
@@ -87,7 +95,10 @@ fun RegisterScreen(
     }
 }
 
-/** Devuelve null si todo está bien, o el mensaje del primer error encontrado. */
+/**
+ * Comprueba los datos del registro y devuelve el primer error encontrado.
+ * Devuelve null cuando todas las validaciones son correctas.
+ */
 private fun validarRegistro(
     nombre: String,
     correo: String,
@@ -95,14 +106,20 @@ private fun validarRegistro(
     confirmar: String,
     aceptaTerminos: Boolean
 ): String? {
+    // Comprueba que todos los campos obligatorios estén completos.
     if (nombre.isBlank() || correo.isBlank() || password.isBlank() || confirmar.isBlank()) {
         return "Todos los campos son obligatorios"
     }
+    // Verifica el formato del correo electrónico.
     if (!Validaciones.esCorreoValido(correo.trim())) return "El correo no tiene un formato válido"
+
+    // Comprueba que la contraseña cumpla con la longitud mínima
     if (!Validaciones.esPasswordValida(password)) {
         return "La contraseña debe tener al menos ${Validaciones.LARGO_MINIMO_PASSWORD} caracteres"
     }
+    // Verifica que ambas contraseñas coincidan.
     if (password != confirmar) return "Las contraseñas no coinciden"
+    // Impide continuar si no se aceptaron los términos.
     if (!aceptaTerminos) return "Debes aceptar los términos y condiciones"
     return null
 }

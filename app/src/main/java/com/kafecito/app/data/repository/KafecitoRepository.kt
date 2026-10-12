@@ -9,7 +9,7 @@ import com.kafecito.app.R
 object KafecitoRepository {
 
     // ------------------------------------------------------------------------
-    // USUARIOS  (registro y login ya funcionan en memoria)
+    // USUARIOS
     // ------------------------------------------------------------------------
 
     private val usuarios = mutableListOf(
@@ -17,7 +17,7 @@ object KafecitoRepository {
     )
     private var usuarioActual: Usuario? = null
 
-    /** Crea la cuenta. Devuelve null si salió bien, o el mensaje de error. */
+    /** Crea la cuenta. Devuelve null si accedio con exito, o si hubo un error. */
     fun registrar(nombre: String, correo: String, password: String): String? {
         if (usuarios.any { it.correo.equals(correo, ignoreCase = true) }) {
             return "Ya existe una cuenta con ese correo"
@@ -28,7 +28,7 @@ object KafecitoRepository {
         return null
     }
 
-    /** Devuelve el usuario si las credenciales son correctas, o null. */
+    /** Devuelve el usuario si las credenciales son correctas, o incorrectas. */
     fun login(correo: String, password: String): Usuario? {
         val usuario = usuarios.find {
             it.correo.equals(correo, ignoreCase = true) && it.password == password
@@ -46,21 +46,8 @@ object KafecitoRepository {
     // ------------------------------------------------------------------------
     // CATÁLOGO
     // ------------------------------------------------------------------------
-
-    // TODO(CATALOGO): CATEGORÍAS REALES
-    //   Estas categorías salen de los chips de la pantalla Home. Si en la Etapa 2
-    //   las categorías eran otras, cambiar esta lista (el Home se actualiza solo).
     val categorias = listOf("Café", "Desayuno", "Postres", "Bebidas")
 
-    // TODO(CATALOGO): PRODUCTOS REALES DE LA ETAPA 2
-    //   Qué hacer:
-    //   1. Abrir Producto.kt e Inventario.kt de la Etapa 2 (proyecto de consola).
-    //   2. Reemplazar estos productos de ejemplo por los del proyecto real:
-    //      mismo id, nombre, descripción, precio, stock y categoría.
-    //   3. La categoría de cada producto debe coincidir EXACTAMENTE con un valor
-    //      de la lista "categorias" de arriba (si no, no aparece en ningún chip).
-    //   4. Cuando se tengan las fotos, llenar el último parámetro imagenUrl
-    //      (ver TODO(IMAGENES)).
     private val productos = listOf(
         Producto(1, "Capuccino", "Espresso con leche vaporizada y espuma", 2.50, 4, "Café", R.drawable.cappucino),
         Producto(2, "Café Americano", "Espresso diluido en agua caliente", 2.00, 8, "Café", R.drawable.cafe_americano),

@@ -3,9 +3,7 @@ package com.kafecito.app.ui.theme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-
-// Un solo esquema base. Cada pantalla decide si usa fondo negro o blanco,
-// tal como lo define el Figma (no depende del modo oscuro del teléfono).
+// Define una paleta base fija, independiente del modo oscuro del teléfono.
 private val KafeColors = lightColorScheme(
     primary = KafeBlack,
     onPrimary = KafeWhite,
@@ -16,7 +14,10 @@ private val KafeColors = lightColorScheme(
     onSurface = KafeBlack,
     error = ErrorRed
 )
-
+/**
+ * Aplica los colores y la tipografía de Kafecito
+ * a los componentes que se encuentran dentro del tema.
+ */
 @Composable
 fun KafecitoTheme(content: @Composable () -> Unit) {
     MaterialTheme(

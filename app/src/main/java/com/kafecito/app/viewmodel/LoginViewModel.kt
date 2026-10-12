@@ -8,23 +8,28 @@ import com.kafecito.app.data.repository.KafecitoRepository
 import com.kafecito.app.util.Validaciones
 
 class LoginViewModel : ViewModel() {
-
+    // Estados del formulario, modificables solo desde el ViewModel.
     var correo by mutableStateOf("")
         private set
     var password by mutableStateOf("")
         private set
     var errorMensaje by mutableStateOf<String?>(null)
         private set
-
+    // Actualizan los valores ingresados por el usuario.
     fun onCorreoChange(value: String) { correo = value }
     fun onPasswordChange(value: String) { password = value }
 
-    /** Valida el formulario y devuelve true si el login fue exitoso. */
+    /**
+     * Valida los datos ingresados e intenta iniciar sesión.
+     * Devuelve true si las credenciales son correctas.
+     */
     fun intentarLogin(): Boolean {
+        // Verifica que los campos obligatorios no estén vacíos.
         if (correo.isBlank() || password.isBlank()) {
             errorMensaje = "Correo y contraseña son obligatorios"
             return false
         }
+        // Comprueba el formato del correo antes de validar las credenciales.
         if (!Validaciones.esCorreoValido(correo.trim())) {
             errorMensaje = "El correo no tiene un formato válido"
             return false

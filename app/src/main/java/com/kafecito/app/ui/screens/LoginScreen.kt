@@ -16,9 +16,9 @@ import com.kafecito.app.ui.theme.KafeGray
 import com.kafecito.app.ui.theme.KafeWhite
 import com.kafecito.app.viewmodel.LoginViewModel
 
-/**
- * Pantalla "Bienvenido de nuevo". YA FUNCIONA con validaciones.
- * Usuario de prueba: admin@kafecito.com / 123456 (o cualquier cuenta creada en Registro).
+/*
+ * Pantalla de inicio de sesión.
+ * Permite ingresar las credenciales y acceder si son válidas.
  */
 @Composable
 fun LoginScreen(
@@ -32,6 +32,7 @@ fun LoginScreen(
             .background(KafeBlack)
             .padding(24.dp)
     ) {
+        // Permite regresar a la pantalla anterior.
         IconButton(onClick = onAtras) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás", tint = KafeWhite)
         }
@@ -41,7 +42,7 @@ fun LoginScreen(
         Text(text = "Bienvenido de nuevo", color = KafeWhite, style = MaterialTheme.typography.titleLarge)
 
         Spacer(modifier = Modifier.height(32.dp))
-
+// Los campos se conectan al ViewModel para mantener los datos ingresados.
         KafeDarkField(
             label = "Correo electrónico",
             value = viewModel.correo,
@@ -56,7 +57,7 @@ fun LoginScreen(
             keyboardType = KeyboardType.Password,
             esPassword = true
         )
-
+        // El mensaje de error aparece únicamente cuando existe uno.
         viewModel.errorMensaje?.let {
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = it, color = MaterialTheme.colorScheme.error)
@@ -64,6 +65,7 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
         Button(
+            // Si las credenciales son válidas, se notifica el inicio de sesión exitoso.
             onClick = { if (viewModel.intentarLogin()) onLoginExitoso() },
             colors = ButtonDefaults.buttonColors(containerColor = KafeWhite, contentColor = KafeBlack),
             modifier = Modifier.fillMaxWidth().height(48.dp)

@@ -15,7 +15,10 @@ import com.kafecito.app.data.repository.KafecitoRepository
 import com.kafecito.app.ui.components.KafeHeader
 import com.kafecito.app.ui.theme.*
 
-/** Perfil. YA FUNCIONA: muestra nombre y correo del usuario y el botón "Cerrar sesión". */
+/**
+ * Pantalla de perfil: muestra el nombre y correo del usuario actual
+ * y permite cerrar sesión.
+ */
 @Composable
 fun ProfileScreen(onCerrarSesion: () -> Unit) {
     Column(
@@ -33,6 +36,7 @@ fun ProfileScreen(onCerrarSesion: () -> Unit) {
                 .padding(20.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
+                // Icono que representa al usuario.
                 Box(
                     modifier = Modifier
                         .size(56.dp)
@@ -42,6 +46,7 @@ fun ProfileScreen(onCerrarSesion: () -> Unit) {
                 ) { Icon(Icons.Filled.Person, contentDescription = null) }
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
+                    // Obtiene los datos del usuario actual desde el repositorio.
                     Text(
                         text = KafecitoRepository.nombreUsuarioActual(),
                         color = KafeWhite,
@@ -54,9 +59,10 @@ fun ProfileScreen(onCerrarSesion: () -> Unit) {
                     )
                 }
             }
-
+            // Ocupa el espacio disponible para colocar el botón al final.
             Spacer(modifier = Modifier.weight(1f))
 
+            // Notifica al componente padre que se debe cerrar la sesión.
             Button(
                 onClick = onCerrarSesion,
                 colors = ButtonDefaults.buttonColors(containerColor = KafeWhite, contentColor = KafeBlack),

@@ -13,6 +13,10 @@ import androidx.compose.ui.unit.dp
 import com.kafecito.app.ui.theme.KafeBlack
 import com.kafecito.app.ui.theme.KafeWhite
 
+/**
+ * Pantalla de bienvenida de Kafecito.
+ * Permite iniciar sesión o crear una cuenta.
+ */
 @Composable
 fun WelcomeScreen(
     onIniciarSesion: () -> Unit,
@@ -29,16 +33,14 @@ fun WelcomeScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Contenedor circular para el icono o logo de Kafecito.
             Box(
                 modifier = Modifier
                     .size(110.dp)
                     .background(KafeWhite, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                // TODO(TEMA): reemplazar este icono por el logo real de KAFECITO del Figma.
-                //   Exportar el logo desde Figma como PNG o SVG, copiarlo a
-                //   app/src/main/res/drawable/ y usar:
-                //     Image(painter = painterResource(R.drawable.logo_kafecito), contentDescription = null)
+
                 Icon(
                     imageVector = Icons.Filled.Coffee,
                     contentDescription = null,
@@ -53,19 +55,20 @@ fun WelcomeScreen(
                 style = MaterialTheme.typography.titleLarge
             )
         }
-
+        // Coloca los botones en la parte inferior de la pantalla.
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            // Navega a la pantalla de inicio de sesión.
             Button(
                 onClick = onIniciarSesion,
                 colors = ButtonDefaults.buttonColors(containerColor = KafeWhite, contentColor = KafeBlack),
                 modifier = Modifier.fillMaxWidth().height(48.dp)
             ) { Text("INICIAR SESIÓN") }
-
+// Navega al formulario de creación de cuenta.
             OutlinedButton(
                 onClick = onCrearCuenta,
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = KafeWhite),

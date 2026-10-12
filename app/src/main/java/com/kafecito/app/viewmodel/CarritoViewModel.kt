@@ -6,15 +6,18 @@ import com.kafecito.app.data.model.ItemCarrito
 import com.kafecito.app.data.model.Producto
 
 /**
- * Estado del carrito, compartido por Home (botón "+"), Detalle ("Agregar pedido")
- * y Carrito. Se crea una sola vez en navigation/NavGraph.kt.
+ * Administra el estado del carrito compartido entre Home,
+ * Detalle y Carrito. Se crea una sola vez en NavGraph.kt.
  */
 class CarritoViewModel : ViewModel() {
-
+    // Lista observable que actualiza la interfaz cuando cambia el carrito.
     private val _items = mutableStateListOf<ItemCarrito>()
     val items: List<ItemCarrito> get() = _items
 
-    /** YA FUNCIONA: agrega el producto, o suma la cantidad si ya estaba en el carrito. */
+    /**
+     * Agrega un producto al carrito o aumenta su cantidad
+     * si ya existe uno con el mismo ID.
+     */
     fun agregar(producto: Producto, cantidad: Int = 1) {
         val indice = _items.indexOfFirst { it.producto.id == producto.id }
         if (indice >= 0) {
