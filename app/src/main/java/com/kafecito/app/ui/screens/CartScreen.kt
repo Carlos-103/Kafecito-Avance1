@@ -7,6 +7,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,8 +24,7 @@ import com.kafecito.app.ui.components.ProductoImagen
 
 /**
  * "Mi pedido". Ya muestra los productos agregados desde el Home o el Detalle.
- * Falta lo marcado con TODO(CARRITO): los totales (que dependen de CarritoViewModel),
- * y los botones para cambiar la cantidad o quitar productos.
+ * Muestra los productos del pedido con botones para sumar, restar y quitar, más los totales.
  */
 @Composable
 fun CartScreen(
@@ -51,13 +53,21 @@ fun CartScreen(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                items(carritoVM.items) { item -> CartItem(item) }
+                items(carritoVM.items, key = { it.producto.id }) { item ->
+                    CartItem(
+                        item = item,
+                        onCambiarCantidad = { nueva -> carritoVM.cambiarCantidad(item.producto.id, nueva) },
+                        onQuitar = { carritoVM.quitar(item.producto.id) }
+                    )
+                }
             }
         }
 
-        // TODO(CARRITO): estas tres filas muestran hoy $0.00 porque subtotal, iva y total
-        //   están sin implementar en viewmodel/CarritoViewModel.kt. Al completarlas allá,
-        //   aquí se actualizan solas (no hay que cambiar nada en estas filas).
+        if (carritoVM.items.isNotEmpty()) {
+            TextButton(onClick = { carritoVM.vaciar() }, modifier = Modifier.align(Alignment.End)) {
+                Text("Vaciar carrito", color = KafeGray)
+            }
+        }
         TotalRow("Subtotal", carritoVM.subtotal)
         TotalRow("IVA (13%)", carritoVM.iva)
         Spacer(modifier = Modifier.height(4.dp))
@@ -66,7 +76,11 @@ fun CartScreen(
 }
 
 @Composable
-private fun CartItem(item: ItemCarrito) {
+private fun CartItem(
+    item: ItemCarrito,
+    onCambiarCantidad: (Int) -> Unit,
+    onQuitar: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -84,10 +98,33 @@ private fun CartItem(item: ItemCarrito) {
                 .clip(RoundedCornerShape(8.dp))
         )
         Spacer(modifier = Modifier.width(12.dp))
-            // TODO(CARRITO): agregar aquí los botones "-" y "+" para cambiar la cantidad
-            //   (llaman a carritoVM.cambiarCantidad) y un botón para quitar el producto
-            //   (llama a carritoVM.quitar). Hay que pasar carritoVM a este composable
-            //   o recibir funciones lambda (onCambiarCantidad, onQuitar) desde CartScreen.
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = item.producto.nombre,
+                color = KafeWhite,
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 1
+            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = { onCambiarCantidad(item.cantidad - 1) }) {
+                    Icon(Icons.Filled.Remove, contentDescription = "Restar", tint = KafeWhite)
+                }
+                Text(text = item.cantidad.toString(), color = KafeWhite)
+                IconButton(
+                    onClick = { onCambiarCantidad(item.cantidad + 1) },
+                    enabled = item.cantidad < item.producto.stock
+                ) {
+                    Icon(
+                        Icons.Filled.Add,
+                        contentDescription = "Sumar",
+                        tint = if (item.cantidad < item.producto.stock) KafeWhite else KafeGray
+                    )
+                }
+                IconButton(onClick = onQuitar) {
+                    Icon(Icons.Filled.Delete, contentDescription = "Quitar", tint = KafeWhite)
+                }
+            }
+        }
 
         Text(
             text = "$${"%.2f".format(item.totalLinea)}",

@@ -26,35 +26,41 @@ class CarritoViewModel : ViewModel() {
     }
 
     // ========================================================================
-    // TODO(CARRITO): completar las funciones y cálculos de abajo.
-    //   Todo se hace en este archivo y en ui/screens/CartScreen.kt.
+    // Parte del CARRITO (completada)
     // ========================================================================
 
-    // TODO(CARRITO): cambiar la cantidad de un producto ya agregado.
-    //   - Buscar el ítem con _items.indexOfFirst { it.producto.id == productoId }
-    //   - Si nuevaCantidad <= 0 -> quitarlo (llamar a quitar()).
-    //   - Si nuevaCantidad supera producto.stock -> no permitirlo (dejar la cantidad como estaba).
-    //   - Si no, reemplazarlo: _items[indice] = item.copy(cantidad = nuevaCantidad)
+    /** Cambia la cantidad de un producto ya agregado, respetando el stock. */
     fun cambiarCantidad(productoId: Int, nuevaCantidad: Int) {
+        val indice = _items.indexOfFirst { it.producto.id == productoId }
+        if (indice < 0) return
+        val item = _items[indice]
+        when {
+            nuevaCantidad <= 0 -> quitar(productoId)
+            nuevaCantidad > item.producto.stock -> Unit // no se permite pasar del stock
+            else -> _items[indice] = item.copy(cantidad = nuevaCantidad)
+        }
     }
 
-    // TODO(CARRITO): quitar un producto del carrito.
-    //   Pista: _items.removeAll { it.producto.id == productoId }
+    /** Quita un producto del carrito. */
     fun quitar(productoId: Int) {
+        _items.removeAll { it.producto.id == productoId }
     }
 
-    // TODO(CARRITO): vaciar el carrito (se usa al cerrar sesión).
-    //   Pista: _items.clear()
+    /** Vacía el carrito (se usa al cerrar sesión). */
     fun vaciar() {
+        _items.clear()
     }
 
-    // TODO(CARRITO): subtotal = suma de totalLinea de todos los ítems (sin IVA).
-    //   Pista: _items.sumOf { it.totalLinea }
-    val subtotal: Double get() = 0.0
+    /** Suma de todas las líneas, sin IVA. */
+    val subtotal: Double get() = _items.sumOf { it.totalLinea }
 
-    // TODO(CARRITO): IVA = 13 % del subtotal.
-    val iva: Double get() = 0.0
+    /** IVA = 13 % del subtotal. */
+    val iva: Double get() = subtotal * TASA_IVA
 
-    // TODO(CARRITO): total = subtotal + iva.
-    val total: Double get() = 0.0
+    /** Total a pagar = subtotal + IVA. */
+    val total: Double get() = subtotal + iva
+
+    private companion object {
+        const val TASA_IVA = 0.13
+    }
 }
