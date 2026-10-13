@@ -1,75 +1,53 @@
-# Kafecito — Android (Etapa 3, Avance 1)
+# Kafecito ☕
 
-Proyecto Kotlin + Jetpack Compose basado en el Figma KAFECITO APP.
+Aplicación móvil para una cafetería, desarrollada en Kotlin con Android Studio y Jetpack Compose.
 
-**Alcance del Avance 1:** el flujo principal completo
-`Crear cuenta / Login → Catálogo → Detalle de producto → Carrito`.
+## Descripción
 
----
+Kafecito es un proyecto en desarrollo que busca ofrecer una aplicación móvil para consultar productos de una cafetería y gestionar pedidos mediante una interfaz sencilla e intuitiva.
 
-## Cómo abrirlo
+## Tecnologías utilizadas
 
-1. Abrir la carpeta KafecitoAndroid desde Android Studio (**Open**) y esperar el Gradle Sync.
-2. **⚠️ Importante (Error de Java):** Si al sincronizar sale el error _"Incompatible Gradle JVM version"_:
-   - Ve a **File → Settings → Build, Execution, Deployment → Build Tools → Gradle**.
-   - En **Gradle JDK**, selecciona una versión de Java compatible (como la **17** o la **21**). Si no tienes ninguna en la lista, elige la opción **"Download JDK..."** dentro de ese mismo menú para descargarla rápidamente.
-   - Dale a **Apply / OK** y vuelve a sincronizar tocando el ícono del elefantito (Sync Project) arriba a la derecha.
-3. Ejecutar en un celular por USB (con depuración USB activada).
-4. Usuario de prueba: admin@kafecito.com / 123456, o crear una cuenta nueva en "Crear cuenta".
+- Kotlin
+- Android Studio
+- Jetpack Compose
+- Material 3
+- Gradle
+- Git y GitHub
 
-## Cómo encontrar lo que falta
+## Funcionalidades implementadas hasta el momento
 
-Cada pendiente está en el código como comentario `TODO(ETIQUETA)` con las instrucciones paso a paso.
-En Android Studio: **View → Tool Windows → TODO**, y buscar por la etiqueta (por ejemplo `TODO(CARRITO)`).
+- Estructura inicial de la aplicación.
+- Interfaz de usuario y componentes reutilizables.
+- Pantallas de inicio de sesión y registro.
+- Visualización del catálogo y detalles de productos.
+- Navegación entre las principales pantallas.
+- Estructura del carrito de compras.
+- Agregar productos y modificar sus cantidades.
+- Eliminar productos y vaciar el carrito.
+- Cálculo del subtotal, IVA del 13 % y total del pedido.
 
----
+*La disponibilidad y el funcionamiento de cada característica pueden variar según el estado actual de desarrollo.*
 
-## Qué ya funciona
+## Requisitos
 
-- Welcome, Login y Registro con validaciones (campos vacíos, formato de correo, contraseña de mínimo 6 caracteres, contraseñas iguales, términos aceptados, correo ya registrado).
-- El registro guarda la cuenta y el login la valida (en memoria).
-- Home: saludo con el nombre del usuario, buscador, categorías, grid de productos.
-- Tocar una tarjeta abre el Detalle; el botón "+" agrega al carrito.
-- Navegación completa con barra inferior (Home, Contacto, Perfil).
-- Perfil con nombre y correo del usuario y "Cerrar sesión".
+- Android Studio compatible con proyectos Kotlin y Jetpack Compose.
+- JDK 21.
+- Gradle 8.7
+- SDK de Android compatible con la configuración del proyecto.
+- Emulador de Android o dispositivo físico compatible.
 
-## Qué falta (etiquetas)
+## Instalación y ejecución
 
-| Etiqueta         | Dónde                                                                                              | Qué hay que hacer                                                                                                                                                                                                                                    |
-| ---------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TODO(TEMA)`     | `ui/theme/Color.kt`, `ui/theme/Type.kt`, `WelcomeScreen.kt`                                        | Buscar los códigos de color (ej. `#FF0000`) y tamaños de texto en el diseño de Figma y copiarlos aquí. Solo hay que cambiar los valores y números; los nombres de las variables se dejan intactos.                                                   |
-| `TODO(IMAGENES)` | `HomeScreen.kt`, `ProductDetailScreen.kt`, `CartScreen.kt`, `Producto.kt`, `KafecitoRepository.kt` | Poner la URL de la foto de cada producto en `imagenUrl` (`KafecitoRepository.kt`) y reemplazar los cuadros grises de `HomeScreen.kt`, `ProductDetailScreen.kt` y `CartScreen.kt` por `AsyncImage`. Coil y el permiso de internet ya están agregados. |
-| `TODO(CATALOGO)` | `data/repository/KafecitoRepository.kt`                                                            | Abrir este archivo y borrar la lista de productos de prueba. Luego, copiar y pegar la información real (nombres de cafés, precios, descripciones) que teníamos en el archivo `Inventario.kt` de la Etapa 2.                                          |
-| `TODO(DETALLE)`  | `ui/screens/ProductDetailScreen.kt`                                                                | Hacer que funcionen los botones de "+" y "-" para elegir cuántos cafés llevar (el mínimo es 1 y el máximo es el stock disponible). Además, lograr que el botón de "Agregar pedido" calcule y muestre automáticamente el precio total a pagar.        |
-| `TODO(CARRITO)`  | `viewmodel/CarritoViewModel.kt`, `ui/screens/CartScreen.kt`                                        | Darle vida a la pantalla del carrito: que funcionen los botones para sumar/restar/eliminar productos, la opción de vaciar todo, y programar la matemática para que calcule el Subtotal, el IVA (13%) y el Total final.                               |
+1. Clonar el repositorio.
+2. Abrir el proyecto en Android Studio.
+3. Esperar a que finalice la sincronización de Gradle.
+4. Ejecutar la aplicación en un emulador o dispositivo Android compatible.
 
-Además, para la entrega del Avance 1:
+## Equipo de desarrollo
 
-- **PDF de investigación (APA 7)** sobre Jetpack Compose aplicado al proyecto (sin él la nota base es 5).
-- **Video demostración** (máx. 15 min): registro, login, catálogo, detalle, carrito, navegación.
-
----
-
-## Estructura
-
-```
-app/src/main/java/com/kafecito/app/
-├── MainActivity.kt
-├── navigation/NavGraph.kt          Rutas y barra inferior
-├── data/model/                     Usuario, Producto, ItemCarrito
-├── data/repository/                KafecitoRepository (datos en memoria)
-├── viewmodel/                      LoginViewModel, CarritoViewModel
-├── util/Validaciones.kt            Validaciones de formularios
-└── ui/
-    ├── theme/                      Color.kt, Type.kt, Theme.kt
-    ├── components/                 KafeBottomBar, KafeDarkField
-    └── screens/                    Welcome, Login, Register, Home, ProductDetail, Cart,
-                                    Profile, Contact
-```
-
-## Trabajo en equipo (Git)
-
-- Cada integrante trabaja en **su propia rama** (`git checkout -b nombre-tarea`), nunca directo en `main`.
-- Al terminar: commit, push y Pull Request; el dueño del repositorio revisa y hace el merge.
-- Todos deben quedar como colaboradores del repositorio y con commits propios (requisito de la entrega final).
-  -- **Orden de merge:** 1) CARRITO, 2) DETALLE, 3) CATALOGO, 4) IMAGENES, 5) TEMA (puede ir en cualquier momento).
+- Carlos David Martínez Ventura — MV120141
+- Carlos Alberto Alfaro Espinoza — AE220430
+- Ricardo José Aguillón González — AG242725
+- Kevin Antonio Flores Alvarado — FA251339
+- José Antonio González Oliva — GO231492
