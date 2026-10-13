@@ -63,7 +63,7 @@ fun CartScreen(
                 }
             }
         }
-
+// Permite vaciar el carrito cuando contiene productos.
         if (carritoVM.items.isNotEmpty()) {
             TextButton(onClick = { carritoVM.vaciar() }, modifier = Modifier.align(Alignment.End)) {
                 Text("Vaciar carrito", color = KafeGray)
@@ -117,6 +117,7 @@ private fun CartItem(
                 style = MaterialTheme.typography.bodyLarge,
                 maxLines = 1
             )
+            // Los botones permiten cambiar la cantidad o quitar el producto.
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = { onCambiarCantidad(item.cantidad - 1) }) {
                     Icon(Icons.Filled.Remove, contentDescription = "Restar", tint = KafeWhite)

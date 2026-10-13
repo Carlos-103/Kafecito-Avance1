@@ -30,18 +30,16 @@ class CarritoViewModel : ViewModel() {
         }
     }
 
-    // ========================================================================
-    // Parte del CARRITO (completada)
-    // ========================================================================
-
     /** Cambia la cantidad de un producto ya agregado, respetando el stock. */
     fun cambiarCantidad(productoId: Int, nuevaCantidad: Int) {
         val indice = _items.indexOfFirst { it.producto.id == productoId }
         if (indice < 0) return
         val item = _items[indice]
         when {
+            // Si la cantidad llega a cero, elimina el producto del carrito.
             nuevaCantidad <= 0 -> quitar(productoId)
-            nuevaCantidad > item.producto.stock -> Unit // no se permite pasar del stock
+            // Impide superar las unidades disponibles en inventario
+            nuevaCantidad > item.producto.stock -> Unit
             else -> _items[indice] = item.copy(cantidad = nuevaCantidad)
         }
     }
@@ -66,6 +64,7 @@ class CarritoViewModel : ViewModel() {
     val total: Double get() = subtotal + iva
 
     private companion object {
+        // Tasa del IVA aplicada al subtotal.
         const val TASA_IVA = 0.13
     }
 }
