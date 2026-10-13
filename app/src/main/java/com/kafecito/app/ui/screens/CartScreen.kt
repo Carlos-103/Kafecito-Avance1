@@ -74,6 +74,13 @@ fun CartScreen(
         TotalRow("IVA (13%)", carritoVM.iva)
         Spacer(modifier = Modifier.height(4.dp))
         TotalRow("TOTAL", carritoVM.total, destacado = true)
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = {},
+            enabled = carritoVM.items.isNotEmpty(),
+            colors = ButtonDefaults.buttonColors(containerColor = KafeWhite, contentColor = KafeBlack),
+            modifier = Modifier.fillMaxWidth().height(48.dp)
+        ) { Text("Ir a Pagar") }
     }
 }
 /**
