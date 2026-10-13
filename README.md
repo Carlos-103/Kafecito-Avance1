@@ -43,7 +43,7 @@ Kafecito es un proyecto en desarrollo que busca ofrecer una aplicación móvil p
 2. Abrir el proyecto en Android Studio.
 3. Esperar a que finalice la sincronización de Gradle.
 4. Ejecutar la aplicación en un emulador o dispositivo Android compatible.
-
+5. Usuario de prueba: || correo:admin@kafecito.com || contraseña: 123456
 ## Equipo de desarrollo
 
 - Carlos David Martínez Ventura — MV120141
