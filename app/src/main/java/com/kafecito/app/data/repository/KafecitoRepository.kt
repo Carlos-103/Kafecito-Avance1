@@ -1,7 +1,6 @@
 package com.kafecito.app.data.repository
 
 import com.kafecito.app.data.model.Producto
-import com.kafecito.app.data.model.Rol
 import com.kafecito.app.data.model.Usuario
 import com.kafecito.app.R
 
@@ -13,7 +12,7 @@ object KafecitoRepository {
     // ------------------------------------------------------------------------
 
     private val usuarios = mutableListOf(
-        Usuario(1, "David", "admin@kafecito.com", "123456", Rol.ADMIN)
+        Usuario(1, "David", "admin@kafecito.com", "123456")
     )
     private var usuarioActual: Usuario? = null
 
@@ -22,7 +21,7 @@ object KafecitoRepository {
         if (usuarios.any { it.correo.equals(correo, ignoreCase = true) }) {
             return "Ya existe una cuenta con ese correo"
         }
-        val nuevo = Usuario(usuarios.size + 1, nombre, correo, password, Rol.CLIENTE)
+        val nuevo = Usuario(usuarios.size + 1, nombre, correo, password)
         usuarios.add(nuevo)
         usuarioActual = nuevo
         return null

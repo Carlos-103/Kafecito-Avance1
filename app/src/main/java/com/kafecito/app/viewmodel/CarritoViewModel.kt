@@ -20,11 +20,13 @@ class CarritoViewModel : ViewModel() {
      */
     fun agregar(producto: Producto, cantidad: Int = 1) {
         val indice = _items.indexOfFirst { it.producto.id == producto.id }
+        val actual = if (indice >= 0) _items[indice].cantidad else 0
+        val nueva = (actual + cantidad).coerceAtMost(producto.stock)
+        if (nueva <= actual) return
         if (indice >= 0) {
-            val actual = _items[indice]
-            _items[indice] = actual.copy(cantidad = actual.cantidad + cantidad)
+            _items[indice] = _items[indice].copy(cantidad = nueva)
         } else {
-            _items.add(ItemCarrito(producto, cantidad))
+            _items.add(ItemCarrito(producto, nueva))
         }
     }
 
