@@ -1,3 +1,4 @@
+# Video de avance 1
 https://udbedu-my.sharepoint.com/:v:/g/personal/ag242725_alumno_udb_edu_sv/IQDeLWtWXb4RTr6aAoTKXI3vAf7-7ykP4K0qg-FGp8B2OcQ?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=T9iNzt
 # Kafecito ☕
 
@@ -28,8 +29,6 @@ Kafecito es un proyecto en desarrollo que busca ofrecer una aplicación móvil p
 - Eliminar productos y vaciar el carrito.
 - Cálculo del subtotal, IVA del 13 % y total del pedido.
 
-*La disponibilidad y el funcionamiento de cada característica pueden variar según el estado actual de desarrollo.*
-
 ## Requisitos
 
 - Android Studio compatible con proyectos Kotlin y Jetpack Compose.
@@ -45,7 +44,8 @@ Kafecito es un proyecto en desarrollo que busca ofrecer una aplicación móvil p
 3. Esperar a que finalice la sincronización de Gradle.
 4. Ejecutar la aplicación en un emulador o dispositivo Android compatible.
 5. Usuario de prueba: || correo:admin@kafecito.com || contraseña: 123456
-## Equipo de desarrollo
+
+## Equipo de trabajo
 
 - Carlos David Martínez Ventura — MV120141
 - Carlos Alberto Alfaro Espinoza — AE220430
